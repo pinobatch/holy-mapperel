@@ -1,0 +1,21 @@
+*.sw[a-p]
+*.o
+*~
+*.prg
+*.chr
+/obj/nes/*.s
+/obj/nes/*.bin
+/zip.in
+*.nes.deb
+/map.txt
+/nsfmap.txt
+/testroms/
+__pycache__/
+*.pyc
+mapperel-master.nes
+holy-mapperel.nes
+
+# this is NES homebrew, not DSiWare
+*.DS_Store
+
+
