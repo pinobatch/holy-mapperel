@@ -373,12 +373,13 @@ narrow_32k:
   jmp unknown_mapper
 :
   ; GNROM: [PPPP CCCC]
-  ; If F0 doesn't go to the last bank, it's BNROM.
+  ; If F0 doesn't go to the last bank, it's Color Dreams or its
+  ; subset BNROM.
   lda #$F0
   sta CONSTANT_F0
   lda IS_LAST_BANK
   bne not_bnrom
-  lda #MAPPER_BNROM
+  lda #MAPPER_COLORDREAMS
   jmp ff_and_return
 not_bnrom:
   ; At this point it's either CPROM, GNROM, or one of GNROM's

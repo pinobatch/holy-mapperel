@@ -31,6 +31,8 @@ chr_test_result:  .res 1
 .proc detect_chrrom
   lda #$00
   jsr driver_load_chr_8k
+  
+  ; Attempt to invert the value in $00
   ldy #$00
   sty PPUADDR
   sty PPUADDR
@@ -45,7 +47,9 @@ chr_test_result:  .res 1
   bit PPUDATA
   eor PPUDATA
   sta is_chrrom
+
   jsr get_chr_size
+  jsr correct_mapper_subset
   lda is_chrrom
   beq do_chrramtest
 
@@ -278,8 +282,8 @@ bail:
 .endproc
 
 ;;
-; Assuming either CHR ROM or CHR RAM that has been filled with
-; bank tags.
+; Assuming either CHR ROM or CHR RAM has been filled with bank tags,
+; puts the number of 8K banks minus one in last_chr_bank.
 .proc get_chr_size
   lda is_chrrom
   bne skip_writing
@@ -321,6 +325,36 @@ read_back_success:
   lsr a
   lsr a
   sta last_chr_bank
+  rts
+.endproc
+
+;;
+; Corrects size-based mapper subsets to their "canonical"
+; mapper number.
+.proc correct_mapper_subset
+  lda cur_mapper
+  cmp #MAPPER_COLORDREAMS
+  bne not_colordreams_bnrom
+    lda last_chr_bank
+    bne bail
+    lda #MAPPER_BNROM
+  have_new_mapper:
+    sta cur_mapper
+  bail:
+    rts
+  not_colordreams_bnrom:
+
+  cmp #MAPPER_GNROM
+  bne not_gnrom
+    lda last_prg_bank
+    cmp #8
+    bcs bail
+    lda last_chr_bank
+    beq have_new_mapper  ; 8K CHR: NROM
+    lda #MAPPER_CNROM
+    bne have_new_mapper
+  not_gnrom:
+
   rts
 .endproc
 

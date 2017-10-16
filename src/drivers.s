@@ -115,16 +115,15 @@ have_prg_result:
   rts
 .endproc
 
-; BNROM/AOROM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; BNROM/AOROM/Color Dreams ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; $8000-$FFFF, bits 3-0 (with bus conflicts): 32K PRG ROM
+; $8000-$FFFF, bits 7-4 (with bus conflicts): 8K CHR ROM
 
 .segment "DRIVER_BNROM"
   rts  ; BNROM doesn't support PRG RAM
   nop
   nop
-  rts  ; BNROM doesn't support CHR banking
-  nop
-  nop
+  jmp colordreams_set_chr_8k
 .proc bnrom_test_mapper
 addrlo = 0
 addrhi = 1
@@ -164,7 +163,7 @@ prg_failure:
 have_prg_result:
   sta driver_prg_result
 
-  ; No PRG RAM protection, CHR banking, or IRQ tests
+  ; No PRG RAM protection, non-8K CHR banking, or IRQ tests
   ldy #0
   sty driver_chr_result
   sty $7FFE
@@ -175,6 +174,17 @@ have_prg_result:
   sta CONSTANT_FF
   rtslast
 .endproc
+.proc colordreams_set_chr_8k
+  asl a
+  asl a
+  asl a
+  asl a
+  ora #$0F
+  tay
+  sta identity,y
+  rts
+.endproc
+
 
 ; UNROM (both normal and Crazy Climber versions) and Holy Diver ;;;;;
 
@@ -309,11 +319,17 @@ copyloop:
 
 .segment "RODATA"
 mapper_driver_list:
+  .byte MAPPER_NROM
+  .addr __DRIVER_GNROM_LOAD__
+  .byte MAPPER_CNROM
+  .addr __DRIVER_GNROM_LOAD__
   .byte MAPPER_GNROM
   .addr __DRIVER_GNROM_LOAD__
   .byte MAPPER_BNROM
   .addr __DRIVER_BNROM_LOAD__
   .byte MAPPER_AOROM
+  .addr __DRIVER_BNROM_LOAD__
+  .byte MAPPER_COLORDREAMS
   .addr __DRIVER_BNROM_LOAD__
   .byte MAPPER_MMC1
   .addr __DRIVER_MMC1_LOAD__

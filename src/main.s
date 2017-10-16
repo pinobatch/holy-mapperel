@@ -596,6 +596,10 @@ mapper_msgs:
   .addr msg_holydiver
   .byte MAPPER_FME7
   .addr msg_fme7
+  .byte MAPPER_NROM
+  .addr msg_nrom
+  .byte MAPPER_CNROM
+  .addr msg_cnrom
   .byte MAPPER_GNROM
   .addr msg_gnrom
   .byte MAPPER_MMC1
@@ -612,6 +616,8 @@ mapper_msgs:
   .addr msg_a53
   .byte MAPPER_BNROM
   .addr msg_bnrom
+  .byte MAPPER_COLORDREAMS
+  .addr msg_colordreams
   .byte MAPPER_AOROM
   .addr msg_aorom
   .byte MAPPER_UNROM
@@ -620,11 +626,14 @@ mapper_msgs:
   .addr msg_unrom_crazy
 last_mapper_msg = * - mapper_msgs
 
+msg_cnrom:       .byte "C"
+msg_nrom:        .byte "NROM",0
 msg_gnrom:       .byte "G*ROM",0
 msg_fme7:        .byte "J*ROM (FME-7)",0
 msg_holydiver:   .byte "HOLY DIVER",0
 msg_aorom:       .byte "A*ROM",0
 msg_bnrom:       .byte "BNROM",0
+msg_colordreams: .byte "COLOR DREAMS",0
 msg_unrom:       .byte "U*ROM",0
 msg_unrom_crazy: .byte "U*ROM (7408)",0
 msg_a53:         .byte "INL-ROM (A53)",0

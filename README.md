@@ -1,10 +1,10 @@
 Holy Mapperel
-an NES demo by Damian Yerrick
+=============
+An NES cartridge PCB manufacturing test by Damian Yerrick
 
 This demo detects what mapper it's running on through mirroring,
 tests how big of a ROM it was written on, verifies that the mapper
 is mostly working, and displays the result.
-
 
 The name
 --------
@@ -82,10 +82,10 @@ at offset 4088 ($FF8) of every 4 KiB bank of PRG ROM and at offset
 508 ($1FC) of every 2 KiB bank of CHR ROM or RAM.
 
 First it copies test code into RAM that detects the mapper by how
-it responds to writes to the supported boards' mirroring ports.
-Then, because a few mappers react the same way, such as all boards
-with fixed mirroring, it narrows the field through very basic bank
-switching tests.  This needs to be done in RAM because 32K bank
+it responds to writes to the supported boards' nametable mirroring
+ports.  Then, because a few mappers react the same way, such as all
+boards with fixed mirroring, it narrows the field through very basic
+bank switching tests.  This needs to be done in RAM because 32K bank
 switching may cause the startup ROM bank to be switched out.
 
 After the mapper number is determined, it copies a driver for that
