@@ -61,7 +61,7 @@ endif
 run: $(title).nes
 	$(EMU) $<
 debug: $(title).nes
-	$(EMU) $<
+	$(DEBUGEMU) $<
 
 clean:
 	rm $(objdir)/*.o $(objdir)/*.chr $(objdir)/*.bin
@@ -89,7 +89,7 @@ $(title)-$(version).zip: zip.in $(title).nes \
 	zip -9 -u $@ -@ < $<
 
 $(title)-bin-$(version).7z: README.md $(testconfig)
-	7z a $@ README.md testroms/*.nes testroms/8k.sav testroms/32k.sav
+	7z a $@ README.md CHANGES.txt testroms/*.nes testroms/8k.sav testroms/32k.sav testroms/2k.sav
 
 $(objdir)/index.txt: makefile
 	echo Files produced by build tools go here, but caulk goes where? > $@

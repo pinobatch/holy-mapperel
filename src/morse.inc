@@ -1,3 +1,6 @@
+; bitpatterns
+; by Damian Yerrick, dedicated to public domain
+
 MORSE_B = %10001000  ; _...
 MORSE_C = %10101000  ; _._.
 MORSE_D = %10010000  ; _..
