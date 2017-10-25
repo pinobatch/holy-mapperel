@@ -10,6 +10,9 @@
   by rainwarrior)
 * Relicense from GNU All-Permissive to the equivalent (but more
   widely recognized) zlib
+* Add Color Dreams mapper
+* Distinguish mappers 0 (NROM) and 3 (CNROM) from their superset
+  66 (GNROM), and 34 (BNROM) from 11 (Color Dreams)
 
 0.01 (2013-11-02)
 * Initial public release

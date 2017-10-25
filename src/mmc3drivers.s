@@ -316,9 +316,10 @@ e000problem:
 ; $6000 is special: $00 is ROM, $80 is open bus, $C0 is RAM
 ; FME7_IRQCTRL:
 ;   FME7_IRQ_COUNT means run counter
-;   FME7_IRQ_ENABLE means generate IRQs (clear then set to ack)
-;FME7_IRQ_LOW and FME7_IRQ_HIGH set the counter
-; when counter becomes $FFFF while counting, assert /IRQ until ack
+;   FME7_IRQ_ENABLE means generate IRQs
+;   all data writes deassert /IRQ
+; FME7_IRQ_LOW and FME7_IRQ_HIGH set the counter
+;   when counter becomes $FFFF while counting, assert /IRQ
 
 .segment "DRIVER_FME7"
   jmp fme7_set_prg_8k
@@ -340,12 +341,8 @@ prgwinloop:
   ora driver_prg_result
   sta driver_prg_result
 
-.if 1
   ; Test that IRQ line is connected
   jsr fme7_test_irq
-.else
-  lda #0
-.endif
   sta driver_chr_result
 
   ; Read all CHR bank tags through each single CHR window
@@ -544,7 +541,7 @@ protproblem2:
   sta irq_handler+2
 
   ; Schedule an IRQ 256 cycles from now
-  ldx #$0D
+  ldx #FME7_IRQCTRL
   stx FME7_SELECT
   ldy #0
   sty FME7_DATA  ; $00: don't count
@@ -556,13 +553,13 @@ protproblem2:
   stx FME7_SELECT
   ldx #1         ; $01: high 8 bits of count
   stx FME7_DATA
-  ldx #$0D
+  ldx #FME7_IRQCTRL
   stx FME7_SELECT
   ldx #$81
   lda irqs
   cli
+  ldy #<-28
   stx FME7_DATA  ; now start counting and IRQing
-  ldy #<-27
 waitfast:        ; 10 cycles per loop
   iny
   beq waitfail
@@ -606,8 +603,6 @@ waitslow:        ; 1289 cycles per loop
   pha
   lda #$0D
   sta FME7_SELECT
-  lda #$80  ; disable IRQ
-  sta FME7_DATA
   lda #$81  ; reenable IRQ
   sta FME7_DATA
   ; Here you'd restore the old FME7_SELECT value.

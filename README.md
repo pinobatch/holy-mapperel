@@ -18,11 +18,11 @@ might say: "Holy diver, Batman!"
 
 But the Warners probably wouldn't like that.  A label in Warner Music
 Group publishes the Dio album after which *Holy Diver* was named, and
-a unit of Time Warner publishes comics starring Batman.  In 2010,
-Time Warner forced NIS America to remove Batman from the title of
-the PSP game now known as *What Did I Do To Deserve This, My Lord?*.
-So instead, I'm avoiding references to either Warner company's works
-in the title.
+DC Comics (a unit of Time Warner) publishes comics starring Batman.
+In 2010, Time Warner forced NIS America to remove Batman from the
+title of the PSP game now known as *What Did I Do To Deserve This,
+My Lord?*.  So instead, I'm avoiding references to either Warner
+company's works in the title.
 
 Building
 --------
@@ -41,19 +41,19 @@ at power on, ROM generation repeats several parts of the program:
 
 * Every 4 KiB has the Morse code crash handler.
 * Every 16 KiB has a trampoline that attempts to change a discrete
-  logic mapper to the last bank.
+  logic mapper or MMC1 to the last bank.
 * Every 256 KiB has the entire test, in order to make testing of
   SUROM easier.
 
 Once you have test ROMs of the appropriate size, you can use any
-PRG/CHR splitting program.  The contents of all PRG ROMs are
-identical for a given size no matter the mapper, as are all CHR
-ROMs.  Go ahead and burn an EPROM for each size and plug it into
-your socketed boards.  However, you can't chop off the end of a
-larger ROM and use that on a smaller ROM, as it will be missing
-the special tag that identifies it as the last bank of the ROM.
-This is intentional in order to prevent builds with disconnected
-upper address lines from silently working.
+PRG/CHR splitting program.  The contents of all PRG ROMs of a
+given size are identical no matter the mapper, as are all CHR
+ROMs.  They differ only by header.  So go ahead and burn an EPROM
+for each size and plug it into your socketed boards.  However, you
+can't chop off the end of a larger ROM and use that on a smaller
+ROM, as it will be missing the special tag that identifies it as
+the last bank of the ROM.  This is intentional in order to prevent
+builds with disconnected upper address lines from silently working.
 
 [nrom-template]: https://github.com/pinobatch/nrom-template/
 
