@@ -132,79 +132,86 @@ chrramsize -- Sizes of CHR RAM as tuple (not battery-backed, battery-backed)
     return bytes(header)
 
 # PRG ROM size or range, CHR ROM size or range,
-# mapper, mirroring, PRG RAM size(s)
+# mapper, mirroring, PRG RAM size(s), CHR RAM sizes
 romspecs_all = [
     # Discretes
     (32768, 8192,
-     MAPPER_NROM, (INES_MIRRV, INES_MIRRH), (0, 2048, 4096)),
+     MAPPER_NROM, (INES_MIRRV, INES_MIRRH), (0, 2048, 4096), 0),
     (32768, (16384, 32768),
-     MAPPER_CNROM, (INES_MIRRV, INES_MIRRH), 0),
-    ((32768, 524288), 0,
-     MAPPER_UNROM, (INES_MIRRV, INES_MIRRH), 0),
-    ((32768, 524288), 0,
-     MAPPER_UNROM_CRAZY, (INES_MIRRV, INES_MIRRH), 0),
+     MAPPER_CNROM, (INES_MIRRV, INES_MIRRH), 0, 0),
     (32768, 0,
-     MAPPER_CPROM, (INES_MIRRV, INES_MIRRH), 0),
-    ((32768, 262144), 0,
-     MAPPER_AOROM, 0, 0),
+     MAPPER_CNROM, (INES_MIRRV, INES_MIRRH), 0, 32768),
     ((32768, 524288), 0,
-     MAPPER_BNROM, (INES_MIRRV, INES_MIRRH), 0),
+     MAPPER_UNROM, (INES_MIRRV, INES_MIRRH), 0, 8192),
+    ((32768, 524288), 0,
+     MAPPER_UNROM_CRAZY, (INES_MIRRV, INES_MIRRH), 0, 8192),
+    (32768, 0,
+     MAPPER_CPROM, (INES_MIRRV, INES_MIRRH), 0, 16384),
+    ((32768, 262144), 0,
+     MAPPER_AOROM, 0, 0, 8192),
+    ((32768, 524288), 0,
+     MAPPER_BNROM, (INES_MIRRV, INES_MIRRH), 0, 8192),
     ((65536, 131072), (16384, 32768),
-     MAPPER_GNROM, (INES_MIRRV, INES_MIRRH), 0),
+     MAPPER_GNROM, (INES_MIRRV, INES_MIRRH), 0, 0),
     ((65536, 131072), (16384, 131072),
-     MAPPER_COLORDREAMS, (INES_MIRRV, INES_MIRRH), 0),
+     MAPPER_COLORDREAMS, (INES_MIRRV, INES_MIRRH), 0, 0),
+    ((65536, 131072), 0,
+     MAPPER_COLORDREAMS, (INES_MIRRV, INES_MIRRH), 0, (8192, 32768)),
 
     # SGROM SNROM SUROM SOROM SXROM
     ((32768, 524288), 0,
-     MAPPER_MMC1, 0, (0, 8192, (8192, 8192), 32768)),
+     MAPPER_MMC1, 0, (0, 8192, (8192, 8192), 32768), 8192),
     # MMC1 with CHR ROM
     ((32768, 262144), (16384, 131072),
-     MAPPER_MMC1, 0, (0, 8192)),
+     MAPPER_MMC1, 0, (0, 8192), 0),
     # TKSROM TLSROM
     ((32768, 524288), (16384, 262144),
-     MAPPER_MMC3_TLSROM, 0, (0, 8192)),
+     MAPPER_MMC3_TLSROM, 0, (0, 8192), 0),
     # Mega Man 4/6 and TNROM
     ((32768, 524288), 0,
-     MAPPER_MMC3, 0, (0, 8192)),
+     MAPPER_MMC3, 0, (0, 8192), (8192, 32768)),
     # Rest of MMC3
     ((32768, 524288), (16384, 262144),
-     MAPPER_MMC3, 0, (0, 8192)),
+     MAPPER_MMC3, 0, (0, 8192), 0),
     # BTR and JxROM
     ((32768, 262144), (16384, 262144),
-     MAPPER_FME7, 0, (0, 8192)),
+     MAPPER_FME7, 0, (0, 8192), 0),
     # Holy Diver
     ((32768, 131072), (16384, 131072),
-     MAPPER_HOLYDIVER, 0, 0),
+     MAPPER_HOLYDIVER, 0, 0, 0),
     # PNROM
     ((32768, 131072), (16384, 131072),
-     MAPPER_MMC2, 0, 0),
+     MAPPER_MMC2, 0, 0, 0),
     # FxROM
     ((32768, 131072), (16384, 131072),
-     MAPPER_MMC4, 0, (0, 8192)),
+     MAPPER_MMC4, 0, (0, 8192), 0),
 ]
 
 romspecs_oneofeach = [
     # Discretes
-    (32768, 8192, MAPPER_NROM, INES_MIRRV, 0),
-    (32768, 32768, MAPPER_CNROM, INES_MIRRH, 0),
-    (131072, 0, MAPPER_UNROM, INES_MIRRV, 0),
-    (131072, 0, MAPPER_UNROM_CRAZY, INES_MIRRH, 0),
-    (131072, 0, MAPPER_AOROM, 0, 0),
-    (131072, 0, MAPPER_BNROM, INES_MIRRH, 0),
-    (65536, 65536, MAPPER_COLORDREAMS, INES_MIRRV, 0),
-    (65536, 16384, MAPPER_GNROM, INES_MIRRV, 0),
-    (131072, 32768, MAPPER_MMC1, 0, (0, 8192)),
-    (131072, 0, MAPPER_MMC1, 0, 0),
-    (524288, 0, MAPPER_MMC1, 0, ((0, 8192), (0, 32768))),
-    (131072, 131072, MAPPER_MMC1, 0, (0, 8192)),
-    (131072, 65536, MAPPER_MMC2, INES_MIRRV, 0),
-    (262144, 262144, MAPPER_MMC3, 0, 0),
-    (131072, 0, MAPPER_MMC3, 0, 0),
-    (131072, 65536, MAPPER_MMC3_TLSROM, 0, 0),
-    (131072, 65536, MAPPER_MMC4, INES_MIRRV, 8192),
-    (131072, 65536, MAPPER_FME7, 0, 8192),
-    (131072, 65536, MAPPER_HOLYDIVER, 0, 0),
-    (524288, 0, MAPPER_A53, 0, 0),
+    (32768, 8192, MAPPER_NROM, INES_MIRRV, 0, 0),
+    (32768, 0, MAPPER_NROM, INES_MIRRV, 0, 8192),
+    (32768, 32768, MAPPER_CNROM, INES_MIRRH, 0, 0),
+    (32768, 0, MAPPER_NROM, INES_MIRRV, 0, 32768),
+    (131072, 0, MAPPER_UNROM, INES_MIRRV, 0, 8192),
+    (131072, 0, MAPPER_UNROM_CRAZY, INES_MIRRH, 0, 8192),
+    (131072, 0, MAPPER_AOROM, 0, 0, 8192),
+    (131072, 0, MAPPER_BNROM, INES_MIRRH, 0, 8192),
+    (65536, 65536, MAPPER_COLORDREAMS, INES_MIRRV, 0, 0),
+    (65536, 0, MAPPER_COLORDREAMS, INES_MIRRV, 0, 32768),
+    (65536, 16384, MAPPER_GNROM, INES_MIRRV, 0, 0),
+    (131072, 32768, MAPPER_MMC1, 0, (0, 8192), 0),
+    (131072, 0, MAPPER_MMC1, 0, 0, 8192),
+    (524288, 0, MAPPER_MMC1, 0, ((0, 8192), (0, 32768)), 8192),
+    (131072, 131072, MAPPER_MMC1, 0, (0, 8192), 0),
+    (131072, 65536, MAPPER_MMC2, INES_MIRRV, 0, 0),
+    (262144, 262144, MAPPER_MMC3, 0, 0, 0),
+    (131072, 0, MAPPER_MMC3, 0, 0, (8192, 32768)),
+    (131072, 65536, MAPPER_MMC3_TLSROM, 0, 0, 0),
+    (131072, 65536, MAPPER_MMC4, INES_MIRRV, 8192, 0),
+    (131072, 65536, MAPPER_FME7, 0, 8192, 0),
+    (131072, 65536, MAPPER_HOLYDIVER, 0, 0, 0),
+    (524288, 0, MAPPER_A53, 0, 0, 32768),
 ]
 
 romspecs = romspecs_oneofeach
@@ -223,11 +230,13 @@ switchable_mirror_mappers = {
     MAPPER_FME7, MAPPER_A53
 }
 
-def handle_single_rom(prgsize, chrsize, mapper, mirror, prgramsize):
+def handle_single_rom(prgsize, chrsize, mapper, mirror,
+                      prgramsize, chrramsize):
     filename = ['M%d' % (mapper[0] if isinstance(mapper, tuple) else mapper),
                 '.%d' % mapper[1] if isinstance(mapper, tuple) else '',
                 '_P', format_memsize(prgsize),
                 '_C%s' % format_memsize(chrsize) if chrsize else '',
+                '_CR%s' % format_memsize(chrramsize) if chrramsize else '',
                 '_%s' % filename_mirroring[mirror & 0x09]
                 if mapper not in switchable_mirror_mappers
                 else '',
@@ -235,10 +244,10 @@ def handle_single_rom(prgsize, chrsize, mapper, mirror, prgramsize):
                 '_S%s' % format_memsize(prgramsize[1]) if prgramsize[1] else '',
                 '.nes']
     filename = ''.join(filename)
-    chrramsize = (8192 if mapper == MAPPER_MMC3_TQROM
-                  else 0 if chrsize > 0
-                  else 16384 if mapper == MAPPER_CPROM
-                  else 8192)
+##    chrramsize = (8192 if mapper == MAPPER_MMC3_TQROM
+##                  else 0 if chrsize > 0
+##                  else 16384 if mapper == MAPPER_CPROM
+##                  else 8192)
     header = make_nes2_header(prgsize, chrsize, mapper, mirror,
                               prgramsize, chrramsize)
 
@@ -289,7 +298,7 @@ def handle_single_rom(prgsize, chrsize, mapper, mirror, prgramsize):
     rom = b''.join([header, prgrom, chrrom])
     return (filename, rom)
 
-def expand_romspec(prgsizes, chrsizes, mapper, mirrors, ramsizes):
+def expand_romspec(prgsizes, chrsizes, mapper, mirrors, ramsizes, chrramsizes):
     from collections import Sequence
     from itertools import product
 
@@ -301,6 +310,8 @@ def expand_romspec(prgsizes, chrsizes, mapper, mirrors, ramsizes):
         mirrors = (mirrors,)
     if not isinstance(ramsizes, Sequence):
         ramsizes = (ramsizes,)
+    if not isinstance(chrramsizes, Sequence):
+        chrramsizes = (chrramsizes,)
     ramsizes = (spec
                 for sz in ramsizes
                 for spec in (set([(sz, 0), (0, sz)])
@@ -309,7 +320,7 @@ def expand_romspec(prgsizes, chrsizes, mapper, mirrors, ramsizes):
     
     return product(log_xrange(*prgsizes),
                    log_xrange(*chrsizes) if chrsizes[0] else (0,),
-                   (mapper,), mirrors, ramsizes)
+                   (mapper,), mirrors, ramsizes, chrramsizes)
 
 test_rom_folder = '../testroms'
 master_file = '../mapperel-master.nes'
@@ -326,6 +337,12 @@ def main():
 ##    h = make_nes2_header(262144, 131072, MAPPER_MMC3, INES_MIRRV,
 ##                         (0, 8192), 0, INES_NTSC)
 ##    print(" ".join("%02x" % c for c in h))
+    for romspec in romspecs:
+        try:
+            expand_romspec(*romspec)
+        except TypeError:
+            print("bad romspec:", romspec)
+            raise
     specs = [single_rom
              for romspec in romspecs
              for single_rom in expand_romspec(*romspec)]

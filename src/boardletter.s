@@ -114,8 +114,8 @@ done:
 .segment "RODATA"
 letterdata:
 ;       MAP PRGSIZE CHRSIZE  WR NAME
-  board   0, 32, 32,  8,  8,  0, "N"
-  board   3, 32, 32, 16, 32,  0, "CN"
+  board   0, 16, 32,  8,  8,  0, "N"
+  board   3, 16, 32, 16, 32,  0, "CN"
   board  66, 64, 64,  8, 16,  0, "MH"
   board  66, 64,128,  8, 32,  0, "GN"
   board   2, 64,128,  8,  8,  0, "UN"

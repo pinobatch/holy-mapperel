@@ -658,7 +658,8 @@ msg_todo:
   .byte "HOLY MAPPEREL",LF
   .byte "TOOL FOR TESTING FAMICOM/NES",LF
   .byte "CARTRIDGE BOARD ASSEMBLY",LF
-  .byte "COPR. 2013 DAMIAN YERRICK",LF
+  .byte "COPR. 2013,2017",LF
+  .byte "DAMIAN YERRICK",LF
   .byte "            WWW.PINEIGHT.COM",LF
   .byte "    WWW.INFINITENESLIVES.COM",0
 
