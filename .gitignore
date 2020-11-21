@@ -12,8 +12,11 @@
 /testroms/
 __pycache__/
 *.pyc
-mapperel-master.nes
-holy-mapperel.nes
+/mapperel-primary.nes
+/holy-mapperel.nes
+/holy-mapperel-*.zip
+/holy-mapperel-bin-*.7z
+
 
 # this is NES homebrew, not DSiWare
 *.DS_Store

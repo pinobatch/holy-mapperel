@@ -188,30 +188,34 @@ romspecs_all = [
 ]
 
 romspecs_oneofeach = [
-    # Discretes
-    (32768, 8192, MAPPER_NROM, INES_MIRRV, 0, 0),
-    (32768, 0, MAPPER_NROM, INES_MIRRV, 0, 8192),
-    (32768, 32768, MAPPER_CNROM, INES_MIRRH, 0, 0),
-    (32768, 0, MAPPER_NROM, INES_MIRRV, 0, 32768),
-    (131072, 0, MAPPER_UNROM, INES_MIRRV, 0, 8192),
-    (131072, 0, MAPPER_UNROM_CRAZY, INES_MIRRH, 0, 8192),
-    (131072, 0, MAPPER_AOROM, 0, 0, 8192),
-    (131072, 0, MAPPER_BNROM, INES_MIRRH, 0, 8192),
-    (65536, 65536, MAPPER_COLORDREAMS, INES_MIRRV, 0, 0),
-    (65536, 0, MAPPER_COLORDREAMS, INES_MIRRV, 0, 32768),
-    (65536, 16384, MAPPER_GNROM, INES_MIRRV, 0, 0),
-    (131072, 32768, MAPPER_MMC1, 0, (0, 8192), 0),
-    (131072, 0, MAPPER_MMC1, 0, 0, 8192),
-    (524288, 0, MAPPER_MMC1, 0, ((0, 8192), (0, 32768)), 8192),
-    (131072, 131072, MAPPER_MMC1, 0, (0, 8192), 0),
-    (131072, 65536, MAPPER_MMC2, INES_MIRRV, 0, 0),
-    (262144, 262144, MAPPER_MMC3, 0, 0, 0),
-    (131072, 0, MAPPER_MMC3, 0, 0, (8192, 32768)),
-    (131072, 65536, MAPPER_MMC3_TLSROM, 0, 0, 0),
-    (131072, 65536, MAPPER_MMC4, INES_MIRRV, 8192, 0),
-    (131072, 65536, MAPPER_FME7, 0, 8192, 0),
-    (131072, 65536, MAPPER_HOLYDIVER, 0, 0, 0),
-    (524288, 0, MAPPER_A53, 0, 0, 32768),
+    #   PRG     CHR  Mapper              Mirror, WRAM, CHR RAM
+    ( 32768,   8192, MAPPER_NROM,        INES_MIRRV, 0, 0),
+    ( 32768,      0, MAPPER_NROM,        INES_MIRRV, 0, 8192),
+    ( 32768,  32768, MAPPER_CNROM,       INES_MIRRH, 0, 0),
+    ( 32768,      0, MAPPER_NROM,        INES_MIRRV, 0, 32768),
+    (131072,      0, MAPPER_UNROM,       INES_MIRRV, 0, 8192),
+    (131072,      0, MAPPER_UNROM_CRAZY, INES_MIRRH, 0, 8192),
+    (131072,      0, MAPPER_AOROM,       0, 0, 8192),
+    (131072,      0, MAPPER_BNROM,       INES_MIRRH, 0, 8192),
+    ( 65536,  65536, MAPPER_COLORDREAMS, INES_MIRRV, 0, 0),
+    ( 65536,      0, MAPPER_COLORDREAMS, INES_MIRRV, 0, 32768),
+    ( 65536,  16384, MAPPER_GNROM,       INES_MIRRV, 0, 0),
+    (131072,  32768, MAPPER_MMC1,        0, (0, 8192), 0),
+    (131072,      0, MAPPER_MMC1,        0, 0, 8192),
+    (524288,      0, MAPPER_MMC1,        0, ((0, 8192), (0, 32768)), 8192),
+    (131072, 131072, MAPPER_MMC1,        0, (0, 8192), 0),
+    (131072,  65536, MAPPER_MMC2,        INES_MIRRV, 0, 0),
+    (262144, 262144, MAPPER_MMC3,        0, 0, 0),
+    (262144,      0, MAPPER_MMC3,        0, 0, 32768),
+    ( 1<<20,      0, MAPPER_MMC3,        0, 0, 32768),  # Oversize; HB only
+    (131072,      0, MAPPER_MMC3,        0, 0, (8192, 32768)),
+    (131072,  65536, MAPPER_MMC3_TLSROM, 0, 0, 0),
+    (131072,  65536, MAPPER_MMC4,        INES_MIRRV, 8192, 0),
+    (131072,  65536, MAPPER_FME7,        0, 8192, 0),
+    (131072,  65536, MAPPER_HOLYDIVER,   0, 0, 0),
+    (131072,      0, MAPPER_HOLYDIVER,   0, 0, 32768),
+    (524288,      0, MAPPER_A53,         0, 0, 32768),
+    ( 1<<20,      0, MAPPER_A53,         0, 0, 32768),
 ]
 
 romspecs = romspecs_oneofeach
@@ -257,10 +261,10 @@ def handle_single_rom(prgsize, chrsize, mapper, mirror,
 
     # Place right bank in the last bank
     prgrom = bytearray([0xFF]) * (dupli_prgsize - 32768)
-    prgrom.extend(master_prgrom)
+    prgrom.extend(primary_prgrom)
 
     # Place wrong bank code into all 4K banks
-    wrong_bank = bytearray(master_prgrom[0x7F80:0x8000])
+    wrong_bank = bytearray(primary_prgrom[0x7F80:0x8000])
     wrong_bank[-4] = 0x80  # Set reset vector
     wrong_bank[-3] = 0xFF
     for i in range(4096, dupli_prgsize, 4096):
@@ -271,7 +275,7 @@ def handle_single_rom(prgsize, chrsize, mapper, mirror,
     # UNROM (Crazy Climber) to the first bank.  There's a stub
     # in $BF6C that tries switching to the last bank.
     # Put it in all 16K banks.
-    gnromstub = master_prgrom[0x3F6C:0x3F80]
+    gnromstub = primary_prgrom[0x3F6C:0x3F80]
     for i in range(0, dupli_prgsize, 16384):
         prgrom[i + 0x3F6C:i + 0x3F80] = gnromstub
     for i in range(0, dupli_prgsize - 16384, 16384):
@@ -282,7 +286,7 @@ def handle_single_rom(prgsize, chrsize, mapper, mirror,
     prgrom = prgrom * (prgsize // len(prgrom))
 
     # Place right bank in first 16K (for #180 UNROM Crazy)
-    prgrom[:0x3F6C] = master_prgrom[:0x3F6C]
+    prgrom[:0x3F6C] = primary_prgrom[:0x3F6C]
 
     # Finally, add bank numbers to PRG ROM
     for i in range(4096 - 8, prgsize, 4096):
@@ -291,7 +295,7 @@ def handle_single_rom(prgsize, chrsize, mapper, mirror,
     prgrom[-7] = 1
 
     # Add bank numbers to CHR ROM
-    chrrom = bytearray(master_chrrom) * (chrsize // len(master_chrrom))
+    chrrom = bytearray(primary_chrrom) * (chrsize // len(primary_chrrom))
     for i in range(508, chrsize, 1024):
         chrrom[i] = i // 1024
 
@@ -299,7 +303,7 @@ def handle_single_rom(prgsize, chrsize, mapper, mirror,
     return (filename, rom)
 
 def expand_romspec(prgsizes, chrsizes, mapper, mirrors, ramsizes, chrramsizes):
-    from collections import Sequence
+    from collections.abc import Sequence
     from itertools import product
 
     if not isinstance(prgsizes, Sequence):
@@ -323,16 +327,16 @@ def expand_romspec(prgsizes, chrsizes, mapper, mirrors, ramsizes, chrramsizes):
                    (mapper,), mirrors, ramsizes, chrramsizes)
 
 test_rom_folder = '../testroms'
-master_file = '../mapperel-master.nes'
+primary_file = '../mapperel-primary.nes'
 
 def main():
     import os
     from itertools import starmap  # starmap(f, rows = f(*row) for row in rows)
-    global master_prgrom, master_chrrom
-    with open(master_file, 'rb') as infp:
+    global primary_prgrom, primary_chrrom
+    with open(primary_file, 'rb') as infp:
         infp.read(16)
-        master_prgrom = infp.read(32768)
-        master_chrrom = infp.read(8192)
+        primary_prgrom = infp.read(32768)
+        primary_chrrom = infp.read(8192)
         
 ##    h = make_nes2_header(262144, 131072, MAPPER_MMC3, INES_MIRRV,
 ##                         (0, 8192), 0, INES_NTSC)

@@ -13,7 +13,7 @@
 title = holy-mapperel
 version = 0.02
 testconfig = testroms/M1_P128K_C128K.nes
-master = mapperel-master.nes
+primary = mapperel-primary.nes
 
 # Space-separated list of assembly language files that make up the
 # PRG ROM.  If it gets too long for one line, you can add a backslash
@@ -66,10 +66,10 @@ debug: $(title).nes
 clean:
 	rm $(objdir)/*.o $(objdir)/*.chr $(objdir)/*.bin
 
-$(title).nes: $(testconfig) $(master) makefile
+$(title).nes: $(testconfig) $(primary) makefile
 	cp $< $@
 
-M%.nes: $(master) tools/make_roms.py
+M%.nes: $(primary) tools/make_roms.py
 	mkdir -p testroms
 	cd tools && ./make_roms.py
 
@@ -98,8 +98,8 @@ $(objdir)/index.txt: makefile
 
 objlisto = $(foreach o,$(objlist),$(objdir)/$(o).o)
 
-map.txt $(master): nrom256.x $(objlisto)
-	$(LD65) -o $(master) -C $^ -m map.txt
+map.txt $(primary): nrom256.x $(objlisto)
+	$(LD65) -o $(primary) -C $^ -m map.txt
 
 $(objdir)/%.o: $(srcdir)/%.s \
   $(srcdir)/nes.inc $(srcdir)/global.inc $(srcdir)/morse.inc
