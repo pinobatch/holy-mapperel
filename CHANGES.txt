@@ -1,3 +1,6 @@
+0.03 (future)
+* Port tools to Python 3.8 or later (collections.abc)
+
 0.02 (2017-10-16)
 * Rename to "Holy Mapperel" to avoid Warner Bros. trouble
 * Port tools to Python 3

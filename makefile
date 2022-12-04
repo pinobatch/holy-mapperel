@@ -11,7 +11,7 @@
 
 # These are used in the title of the NES program and the zip file.
 title = holy-mapperel
-version = 0.02
+version = 0.03pre
 testconfig = testroms/M1_P128K_C128K.nes
 primary = mapperel-primary.nes
 

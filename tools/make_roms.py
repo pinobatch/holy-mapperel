@@ -1,5 +1,27 @@
 #!/usr/bin/env python3
+"""
+ROM builder for Holy Mapperel
 
+Copyright 2013, 2022 Damian Yerrick
+
+This software is provided 'as-is', without any express or implied warranty. In
+no event will the authors be held liable for any damages arising from the use of
+this software.
+
+Permission is granted to anyone to use this software for any purpose, including
+commercial applications, and to alter it and redistribute it freely, subject to
+the following restrictions:
+
+1.  The origin of this software must not be misrepresented; you must not claim
+    that you wrote the original software. If you use this software in a product,
+    an acknowledgment in the product documentation would be appreciated but is
+    not required.
+
+2.  Altered source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+3.  This notice may not be removed or altered from any source distribution.
+"""
 INES_MIRRH = 0
 INES_MIRRV = 1
 INES_MIRR4 = 8
@@ -155,6 +177,7 @@ romspecs_all = [
      MAPPER_GNROM, (INES_MIRRV, INES_MIRRH), 0, 0),
     ((65536, 131072), (16384, 131072),
      MAPPER_COLORDREAMS, (INES_MIRRV, INES_MIRRH), 0, 0),
+    # use of Color Dreams to provide expanded CHR RAM for BNROM
     ((65536, 131072), 0,
      MAPPER_COLORDREAMS, (INES_MIRRV, INES_MIRRH), 0, (8192, 32768)),
 
@@ -167,7 +190,7 @@ romspecs_all = [
     # TKSROM TLSROM
     ((32768, 524288), (16384, 262144),
      MAPPER_MMC3_TLSROM, 0, (0, 8192), 0),
-    # Mega Man 4/6 and TNROM
+    # Mega Man 4/6, Final Fantasy III, Full Quiet
     ((32768, 524288), 0,
      MAPPER_MMC3, 0, (0, 8192), (8192, 32768)),
     # Rest of MMC3

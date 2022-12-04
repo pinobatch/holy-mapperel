@@ -18,8 +18,8 @@ might say: "Holy diver, Batman!"
 
 But the Warners probably wouldn't like that.  A label in Warner Music
 Group publishes the Dio album after which *Holy Diver* was named, and
-DC Comics (a unit of Time Warner) publishes comics starring Batman.
-In 2010, Time Warner forced NIS America to remove Batman from the
+DC Comics (a unit of Warner Bros.) publishes comics starring Batman.
+In 2010, DC forced NIS America to remove a Batman allusion from the
 title of the PSP game now known as *What Did I Do To Deserve This,
 My Lord?*.  So instead, I'm avoiding references to either Warner
 company's works in the title.
@@ -65,6 +65,7 @@ Supported boards
 * 007: AxROM (Battletoads, Jeopardy!)
 * 009: PNROM (Punch-Out!!)
 * 010: FJROM, FKROM (Famicom Wars, Fire Emblem)
+* 011: Color Dreams (Crystal Mines, Spiritual Warfare)
 * 028: INL-ROM (A53) (Action 53 volumes 1 and 2)
 * 034: BNROM (Deadly Towers, Haunted: Halloween '85)
 * 066: NROM, CNROM, GNROM (Balloon Fight, Pipe Dream, Gumshoe)
