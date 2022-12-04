@@ -56,7 +56,7 @@ DOTEXE=
 PY=python3
 endif
 
-.PHONY: run debug clean dist zip 7z
+.PHONY: run debug clean dist zip 7z $(objdir)/last-commit-now
 
 run: $(title).nes
 	$(EMU) $<
@@ -110,6 +110,7 @@ $(objdir)/%.o: $(objdir)/%.s
 
 # Files that depend on .incbin'd files
 $(objdir)/loadchr.o: $(objdir)/font8x5.bin $(objdir)/font8x5.chr
+$(objdir)/main.o: $(objdir)/last-commit
 
 # Rules for CHR data
 
@@ -122,3 +123,9 @@ $(objdir)/%.chr: $(imgdir)/%.png
 $(objdir)/%16.chr: $(imgdir)/%.png
 	$(PY) tools/pilbmp2nes.py -H 16 $< $@
 
+# Print the commit tag
+$(objdir)/last-commit-now:
+	git rev-parse HEAD | tr a-z A-Z > $@
+$(objdir)/last-commit: $(objdir)/last-commit-now
+	if test -f $@; then true; else touch $@; fi
+	cmp $< $@ || cp $< $@

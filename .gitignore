@@ -5,6 +5,8 @@
 *.chr
 /obj/nes/*.s
 /obj/nes/*.bin
+/obj/nes/last-commit
+/obj/nes/last-commit-now
 /zip.in
 *.nes.deb
 /map.txt
