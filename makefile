@@ -125,7 +125,7 @@ $(objdir)/%16.chr: $(imgdir)/%.png
 
 # Print the commit tag
 $(objdir)/last-commit-now:
-	git rev-parse HEAD | tr a-z A-Z > $@
+	git describe --tags | tr a-z A-Z | tr -d '\r\n' > $@
 $(objdir)/last-commit: $(objdir)/last-commit-now
 	if test -f $@; then true; else touch $@; fi
 	cmp $< $@ || cp $< $@

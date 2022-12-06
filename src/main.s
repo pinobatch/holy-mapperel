@@ -658,8 +658,7 @@ msg_todo:
   .byte "HOLY MAPPEREL",LF
   .byte "TOOL FOR TESTING FAMICOM/NES",LF
   .byte "CARTRIDGE BOARD ASSEMBLY",LF
-  .byte "COMMIT "
-  .incbin "../obj/nes/last-commit", 0, 10
+  .incbin "../obj/nes/last-commit"
   .byte LF
   .byte "COPR. 2013,2022",LF
   .byte "DAMIAN YERRICK",LF
